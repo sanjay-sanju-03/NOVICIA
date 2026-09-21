@@ -3,7 +3,15 @@
 
 create extension if not exists pgcrypto;
 
-create type public.admin_role as enum ('SUPER_ADMIN', 'EVENT_ADMIN', 'CHECKIN_ADMIN');
+-- The first SQL Editor attempt may have created this enum before stopping.
+-- Preserve the existing, verified role values and allow a safe re-run.
+do $$
+begin
+  create type public.admin_role as enum ('SUPER_ADMIN', 'EVENT_ADMIN', 'CHECKIN_ADMIN');
+exception
+  when duplicate_object then null;
+end
+$$;
 create type public.participant_status as enum (
   'CONFIRMED', 'CHECKED_IN', 'CHECKED_OUT', 'CANCELLED', 'INVALID'
 );
