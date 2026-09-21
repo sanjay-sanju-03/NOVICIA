@@ -87,6 +87,15 @@ create index if not exists participants_event_name_idx
 create index if not exists participants_event_phone_idx
   on public.participants (event_id, phone);
 
+-- Codes must remain unique even after a cancellation. Sync the sequence to
+-- existing codes so this migration is safe on a partially populated database.
+create sequence if not exists public.participant_code_sequence start with 1;
+select setval(
+  'public.participant_code_sequence',
+  coalesce((select max((substring(participant_code from '([0-9]+)$'))::bigint) from public.participants), 1),
+  exists (select 1 from public.participants)
+);
+
 create table if not exists public.announcements (
   id uuid primary key default gen_random_uuid(),
   event_id uuid not null references public.events(id) on delete cascade,
@@ -255,7 +264,7 @@ begin
   end if;
 
   v_participant_id := gen_random_uuid();
-  v_participant_code := 'NOV26-' || lpad((v_confirmed_count + 1)::text, 3, '0');
+  v_participant_code := 'NOV26-' || lpad(nextval('public.participant_code_sequence')::text, 3, '0');
   v_pass_token := encode(gen_random_bytes(32), 'hex');
 
   insert into public.participants (
@@ -405,20 +414,27 @@ alter table public.participants enable row level security;
 alter table public.announcements enable row level security;
 alter table public.audit_logs enable row level security;
 
+drop policy if exists "public can read event registration state" on public.events;
 create policy "public can read event registration state" on public.events
   for select using (true);
+drop policy if exists "admins can read profiles" on public.profiles;
 create policy "admins can read profiles" on public.profiles
   for select using (public.has_any_admin_role(array['SUPER_ADMIN']::public.admin_role[]));
+drop policy if exists "event admins can read participants" on public.participants;
 create policy "event admins can read participants" on public.participants
   for select using (public.has_any_admin_role(array['SUPER_ADMIN', 'EVENT_ADMIN']::public.admin_role[]));
+drop policy if exists "event admins can update participants" on public.participants;
 create policy "event admins can update participants" on public.participants
   for update using (public.has_any_admin_role(array['SUPER_ADMIN', 'EVENT_ADMIN']::public.admin_role[]));
 -- CHECKIN_ADMIN has no direct UPDATE policy: check-in/out will be exposed
 -- through narrowly scoped RPCs, so that role cannot change private participant data.
+drop policy if exists "public can read published announcements" on public.announcements;
 create policy "public can read published announcements" on public.announcements
   for select using (is_published = true);
+drop policy if exists "event admins manage announcements" on public.announcements;
 create policy "event admins manage announcements" on public.announcements
   for all using (public.has_any_admin_role(array['SUPER_ADMIN', 'EVENT_ADMIN']::public.admin_role[]));
+drop policy if exists "super admins read audit logs" on public.audit_logs;
 create policy "super admins read audit logs" on public.audit_logs
   for select using (public.has_any_admin_role(array['SUPER_ADMIN']::public.admin_role[]));
 
@@ -438,8 +454,8 @@ revoke all on function public.search_attendance_participants from public;
 grant execute on function public.search_attendance_participants to authenticated;
 
 insert into public.events (
-  slug, name, starts_at, ends_at, venue_name, capacity, registration_is_open
+  slug, name, starts_at, ends_at, venue_name, capacity, registration_is_open, allowed_email_domain
 ) values (
   'novicia-2026', 'NOVICIA 2026', '2026-09-26 16:00:00+05:30',
-  '2026-09-27 08:00:00+05:30', 'ASAP OpenMind, Kasaragod', 30, true
-) on conflict (slug) do nothing;
+  '2026-09-27 08:00:00+05:30', 'ASAP OpenMind, Kasaragod', 30, true, null
+) on conflict (slug) do update set allowed_email_domain = excluded.allowed_email_domain;

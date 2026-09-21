@@ -32,7 +32,7 @@ export function RegistrationForm() {
           <Label name="fullName" label="Full name" placeholder="Your full name" />
           <Label name="admissionNumber" label="Admission number" placeholder="e.g. LBS24CS001" />
           <Label name="department" label="Department" placeholder="Your department" />
-          <Label name="collegeEmail" label="College email" placeholder="you@college.edu" type="email" />
+          <Label name="collegeEmail" label="Email address" placeholder="you@gmail.com" type="email" />
           <Label name="phone" label="Phone number" placeholder="Your phone number" type="tel" />
           <Label name="emergencyContactName" label="Emergency contact name" placeholder="Parent or guardian" />
           <Label name="emergencyContactPhone" label="Emergency contact phone" placeholder="Emergency phone number" type="tel" />

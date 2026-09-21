@@ -5,7 +5,7 @@ This folder is the source of truth for NOVICIA's database rules.
 1. Create the Supabase project.
 2. Link this repository with the Supabase CLI.
 3. Apply `migrations/20260921000000_novicia_mvp_foundation.sql`.
-4. In the `events` row, set `allowed_email_domain` to the exact official LBSCEK student email domain once confirmed.
+4. Leave `allowed_email_domain` empty while participants use personal Gmail addresses. Email domain alone cannot verify LBSCEK eligibility; the launch process relies on first-year declaration and the admission number provided.
 5. Create the five organizer Auth users, then insert their profiles server-side:
    - 1 `SUPER_ADMIN`
    - 2 `EVENT_ADMIN`

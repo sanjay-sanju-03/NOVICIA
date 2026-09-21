@@ -7,7 +7,7 @@ const registrationSchema = z.object({
   fullName: z.string().trim().min(2, "Enter your full name.").max(120),
   admissionNumber: z.string().trim().min(2, "Enter your admission number.").max(50),
   department: z.string().trim().min(2, "Enter your department.").max(100),
-  collegeEmail: z.string().trim().email("Enter a valid college email address.").max(254),
+  collegeEmail: z.string().trim().email("Enter a valid email address.").max(254),
   phone: z.string().trim().min(8, "Enter a valid phone number.").max(20),
   emergencyContactName: z.string().trim().min(2, "Enter an emergency contact name.").max(120),
   emergencyContactPhone: z.string().trim().min(8, "Enter a valid emergency contact number.").max(20),
@@ -26,9 +26,9 @@ const initialError = "We could not complete your registration. Please try again.
 
 function messageForDatabaseError(message: string) {
   if (message.includes("REGISTRATION_CLOSED")) return "Registration is closed. All 30 NOVICIA seats have been filled.";
-  if (message.includes("DUPLICATE_REGISTRATION")) return "A registration already exists for this admission number or college email.";
+  if (message.includes("DUPLICATE_REGISTRATION")) return "A registration already exists for this admission number or email address.";
   if (message.includes("INELIGIBLE_STUDENT")) return "NOVICIA 2026 registration is limited to LBSCEK first-year students.";
-  if (message.includes("INELIGIBLE_EMAIL_DOMAIN")) return "Please use your official college email address.";
+  if (message.includes("INELIGIBLE_EMAIL_DOMAIN")) return "Please use the required email address.";
   if (message.includes("OVERNIGHT_CONSENT_REQUIRED")) return "Overnight participation consent is required.";
   return initialError;
 }
