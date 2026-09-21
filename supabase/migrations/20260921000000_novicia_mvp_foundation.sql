@@ -87,7 +87,7 @@ create index if not exists participants_event_name_idx
 create index if not exists participants_event_phone_idx
   on public.participants (event_id, phone);
 
-create table public.announcements (
+create table if not exists public.announcements (
   id uuid primary key default gen_random_uuid(),
   event_id uuid not null references public.events(id) on delete cascade,
   title text not null,
@@ -159,8 +159,14 @@ exception
   when duplicate_object then null;
 end
 $$;
-create trigger announcements_set_updated_at before update on public.announcements
-  for each row execute function public.set_updated_at();
+do $$
+begin
+  create trigger announcements_set_updated_at before update on public.announcements
+    for each row execute function public.set_updated_at();
+exception
+  when duplicate_object then null;
+end
+$$;
 
 -- Public registration is intentionally a single transaction. An advisory lock
 -- serializes registrations per event, so the 31st simultaneous request cannot
