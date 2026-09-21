@@ -147,8 +147,14 @@ begin
 end;
 $$;
 
-create trigger events_set_updated_at before update on public.events
-  for each row execute function public.set_updated_at();
+do $$
+begin
+  create trigger events_set_updated_at before update on public.events
+    for each row execute function public.set_updated_at();
+exception
+  when duplicate_object then null;
+end
+$$;
 create trigger profiles_set_updated_at before update on public.profiles
   for each row execute function public.set_updated_at();
 do $$
