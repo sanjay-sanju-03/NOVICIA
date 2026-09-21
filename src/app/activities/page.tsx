@@ -1,0 +1,3 @@
+import { PublicPage } from "@/components/public/site-shell";
+const activities = ["New connections", "Hands-on learning", "Team challenges", "Creative exploration", "Playful competition", "Reflection"];
+export default function ActivitiesPage() { return <PublicPage eyebrow="WHAT YOU'LL EXPERIENCE" title="Make the night yours."><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{activities.map((activity, i) => <article key={activity} className="min-h-44 rounded-2xl border border-white/10 bg-gradient-to-br from-white/[.07] to-transparent p-6"><p className="font-mono text-sm text-violet-300">0{i + 1}</p><h2 className="mt-10 text-2xl font-bold">{activity}</h2></article>)}</div></PublicPage>; }

@@ -1,0 +1,18 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+
+const links = [
+  ["About", "/about"], ["Schedule", "/schedule"], ["Activities", "/activities"], ["Venue", "/venue"], ["FAQ", "/faq"],
+] as const;
+
+export function SiteHeader() {
+  return <header className="sticky top-0 z-30 border-b border-white/10 bg-[#070a1a]/85 px-5 py-4 backdrop-blur-xl"><div className="mx-auto flex max-w-6xl items-center justify-between gap-5"><Link href="/" className="font-black tracking-[.18em] text-cyan-200">NOVICIA 2026</Link><nav className="hidden gap-5 text-sm text-slate-300 md:flex">{links.map(([label, href]) => <Link key={href} className="transition hover:text-white" href={href}>{label}</Link>)}</nav><Link href="/register" className="rounded-lg bg-cyan-300 px-3 py-2 text-sm font-bold text-slate-950 hover:bg-cyan-200">Register</Link></div></header>;
+}
+
+export function SiteFooter() {
+  return <footer className="border-t border-white/10 bg-[#050714] px-6 py-9 text-sm text-slate-400"><div className="mx-auto flex max-w-6xl flex-col justify-between gap-4 sm:flex-row"><p>IEDC LBSCEK · NOVICIA 2026</p><p>Begin. Explore. Become.</p></div></footer>;
+}
+
+export function PublicPage({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) {
+  return <main className="min-h-screen bg-[#070a1a] text-white"><SiteHeader /><section className="mx-auto max-w-6xl px-6 py-16 sm:px-10 sm:py-24"><p className="text-sm font-bold tracking-[.2em] text-cyan-200">{eyebrow}</p><h1 className="mt-4 max-w-3xl text-5xl font-black tracking-[-.05em] sm:text-7xl">{title}</h1><div className="mt-12">{children}</div></section><SiteFooter /></main>;
+}

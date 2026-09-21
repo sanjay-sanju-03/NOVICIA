@@ -1,0 +1,2 @@
+import { PublicPage } from "@/components/public/site-shell";
+export default function VenuePage() { return <PublicPage eyebrow="WHERE WE MEET" title="ASAP OpenMind, Kasaragod."><div className="max-w-2xl rounded-3xl border border-white/10 bg-white/[.04] p-8"><p className="text-lg leading-8 text-slate-300">NOVICIA begins at 4:00 PM on 26 September and continues until 8:00 AM the following morning.</p><p className="mt-6 font-semibold text-cyan-200">Bring your energy, your curiosity, and anything the organizers list in the important information.</p></div></PublicPage>; }

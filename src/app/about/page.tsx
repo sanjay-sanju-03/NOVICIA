@@ -1,0 +1,2 @@
+import { PublicPage } from "@/components/public/site-shell";
+export default function AboutPage() { return <PublicPage eyebrow="ABOUT NOVICIA" title="A beginning worth remembering."><div className="max-w-3xl space-y-6 text-lg leading-8 text-slate-300"><p>NOVICIA is an overnight first-year experience for students ready to meet people, discover interests, build confidence, and make their first move.</p><p>It is not a conventional orientation. It is a shared journey through discovery, connection, learning, play, building, and reflection.</p></div></PublicPage>; }
