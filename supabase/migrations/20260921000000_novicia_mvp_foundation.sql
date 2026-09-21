@@ -155,8 +155,14 @@ exception
   when duplicate_object then null;
 end
 $$;
-create trigger profiles_set_updated_at before update on public.profiles
-  for each row execute function public.set_updated_at();
+do $$
+begin
+  create trigger profiles_set_updated_at before update on public.profiles
+    for each row execute function public.set_updated_at();
+exception
+  when duplicate_object then null;
+end
+$$;
 do $$
 begin
   create trigger participants_set_updated_at before update on public.participants
