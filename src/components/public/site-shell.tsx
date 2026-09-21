@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 const links = [
-  ["About", "/about"], ["Schedule", "/schedule"], ["Activities", "/activities"], ["Venue", "/venue"], ["FAQ", "/faq"],
+  ["About", "/about"], ["Schedule", "/schedule"], ["Activities", "/activities"], ["Speakers", "/speakers"], ["Venue", "/venue"], ["FAQ", "/faq"],
 ] as const;
 
 export function SiteHeader() {

@@ -1,0 +1,2 @@
+import { PublicPage } from "@/components/public/site-shell";
+export default function AnnouncementsPage() { return <PublicPage eyebrow="LIVE UPDATES" title="Stay in the loop."><section className="max-w-3xl rounded-3xl border border-cyan-200/20 bg-cyan-300/5 p-8"><p className="font-mono text-sm text-cyan-200">NOVICIA LIVE</p><h2 className="mt-4 text-3xl font-bold">Announcements will appear here.</h2><p className="mt-4 leading-7 text-slate-300">Event-day changes, reminders, and important notices will be published by the NOVICIA organizing team.</p></section></PublicPage>; }
