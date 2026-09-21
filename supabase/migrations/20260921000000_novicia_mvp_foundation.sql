@@ -49,7 +49,7 @@ create table if not exists public.profiles (
   updated_at timestamptz not null default now()
 );
 
-create table public.participants (
+create table if not exists public.participants (
   id uuid primary key default gen_random_uuid(),
   event_id uuid not null references public.events(id) on delete restrict,
   participant_code text not null unique,
@@ -80,11 +80,11 @@ create table public.participants (
   check (checked_out_at is null or checked_in_at is not null)
 );
 
-create index participants_event_status_created_idx
+create index if not exists participants_event_status_created_idx
   on public.participants (event_id, status, created_at);
-create index participants_event_name_idx
+create index if not exists participants_event_name_idx
   on public.participants (event_id, full_name);
-create index participants_event_phone_idx
+create index if not exists participants_event_phone_idx
   on public.participants (event_id, phone);
 
 create table public.announcements (
@@ -151,8 +151,14 @@ create trigger events_set_updated_at before update on public.events
   for each row execute function public.set_updated_at();
 create trigger profiles_set_updated_at before update on public.profiles
   for each row execute function public.set_updated_at();
-create trigger participants_set_updated_at before update on public.participants
-  for each row execute function public.set_updated_at();
+do $$
+begin
+  create trigger participants_set_updated_at before update on public.participants
+    for each row execute function public.set_updated_at();
+exception
+  when duplicate_object then null;
+end
+$$;
 create trigger announcements_set_updated_at before update on public.announcements
   for each row execute function public.set_updated_at();
 
