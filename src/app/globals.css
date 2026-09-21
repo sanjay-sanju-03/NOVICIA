@@ -24,3 +24,23 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+html { scroll-behavior: smooth; }
+.night-sky { background: #070918; background-image: radial-gradient(circle at 20% 15%, rgba(82, 47, 196, .4), transparent 24rem), radial-gradient(circle at 76% 70%, rgba(18, 173, 196, .16), transparent 28rem); }
+.orb { position:absolute; border-radius:999px; filter:blur(2px); opacity:.7; animation: drift 12s ease-in-out infinite alternate; }
+.orb-one { top:18%; right:8%; width:14rem; height:14rem; background:radial-gradient(circle at 35% 35%,#a78bfa,transparent 64%); }
+.orb-two { bottom:10%; left:4%; width:18rem; height:18rem; background:radial-gradient(circle,#22d3ee22,transparent 65%); animation-delay:-5s; }
+.hero-type { font-size:clamp(4.4rem,13vw,11rem); line-height:.78; letter-spacing:-.085em; font-weight:950; text-wrap:balance; }
+.hero-type em { font-style:normal; color:#8be9ff; text-shadow:0 0 42px #32d6ff66; }
+.section-kicker { font-size:.72rem; font-weight:800; letter-spacing:.23em; color:#8be9ff; }
+.display-title { font-size:clamp(2.8rem,6vw,5.5rem); line-height:.95; letter-spacing:-.065em; font-weight:900; }
+.display-title span { color:#8be9ff; }
+.magnetic-button { display:inline-flex; gap:.65rem; align-items:center; border-radius:.75rem; background:#9beaff; color:#07101d; padding:.85rem 1.1rem; font-size:.78rem; font-weight:900; letter-spacing:.08em; transition:transform .25s ease, box-shadow .25s ease, background .25s ease; }
+.magnetic-button:hover { transform:translateY(-3px); box-shadow:0 15px 35px #22d3ee33; background:#d2f7ff; }
+.reveal-card { min-height:18rem; border:1px solid rgba(255,255,255,.1); background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.025)); transition:transform .35s ease, border-color .35s ease; }
+.reveal-card:hover { transform:translateY(-7px); border-color:rgba(139,233,255,.55); }
+.sunrise { background:radial-gradient(circle,#ffd27a 0%,#ff9f67 28%,#9581ff55 52%,transparent 70%); filter:blur(8px); }
+.animate-rise { animation:rise .8s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes rise { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+@keyframes drift { to { transform:translate3d(2rem,-1.5rem,0) scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; } }
