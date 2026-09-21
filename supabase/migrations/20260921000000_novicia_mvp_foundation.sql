@@ -12,9 +12,16 @@ exception
   when duplicate_object then null;
 end
 $$;
-create type public.participant_status as enum (
-  'CONFIRMED', 'CHECKED_IN', 'CHECKED_OUT', 'CANCELLED', 'INVALID'
-);
+-- Preserve the existing, verified participant lifecycle enum on re-runs.
+do $$
+begin
+  create type public.participant_status as enum (
+    'CONFIRMED', 'CHECKED_IN', 'CHECKED_OUT', 'CANCELLED', 'INVALID'
+  );
+exception
+  when duplicate_object then null;
+end
+$$;
 
 create table public.events (
   id uuid primary key default gen_random_uuid(),
