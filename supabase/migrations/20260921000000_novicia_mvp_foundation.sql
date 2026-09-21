@@ -40,7 +40,7 @@ create table if not exists public.events (
   check (ends_at > starts_at)
 );
 
-create table public.profiles (
+create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   full_name text not null,
   role public.admin_role not null,
