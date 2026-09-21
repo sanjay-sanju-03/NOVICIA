@@ -23,7 +23,7 @@ exception
 end
 $$;
 
-create table public.events (
+create table if not exists public.events (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
   name text not null,
@@ -418,4 +418,4 @@ insert into public.events (
 ) values (
   'novicia-2026', 'NOVICIA 2026', '2026-09-26 16:00:00+05:30',
   '2026-09-27 08:00:00+05:30', 'ASAP OpenMind, Kasaragod', 30, true
-);
+) on conflict (slug) do nothing;
