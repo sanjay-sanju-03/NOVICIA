@@ -101,7 +101,7 @@ create table if not exists public.announcements (
   updated_at timestamptz not null default now()
 );
 
-create table public.audit_logs (
+create table if not exists public.audit_logs (
   id bigint generated always as identity primary key,
   event_id uuid references public.events(id) on delete set null,
   actor_id uuid references public.profiles(id) on delete set null,
@@ -112,7 +112,7 @@ create table public.audit_logs (
   created_at timestamptz not null default now()
 );
 
-create index audit_logs_event_created_idx on public.audit_logs (event_id, created_at desc);
+create index if not exists audit_logs_event_created_idx on public.audit_logs (event_id, created_at desc);
 
 -- A profile is deliberately never self-created. Create the five launch admins
 -- with a server-side provisioning process after their Auth accounts exist.
