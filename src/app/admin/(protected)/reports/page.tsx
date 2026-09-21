@@ -1,0 +1,1 @@
+export default function ReportsPage() { return <section className="mx-auto max-w-6xl px-5 py-8"><h1 className="text-3xl font-bold">Reports</h1><p className="mt-4 text-slate-300">CSV exports will be enabled after attendance has been tested against production data.</p></section>; }

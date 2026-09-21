@@ -1,0 +1,10 @@
+"use client";
+import { useActionState, useState } from "react";
+import { CameraScanner } from "./camera-scanner";
+import { recordAttendance, type AttendanceState } from "./actions";
+
+const initial: AttendanceState = { kind: "idle" };
+export function AttendanceConsole() {
+  const [mode, setMode] = useState("CHECK_IN"); const [token, setToken] = useState(""); const [state, action, pending] = useActionState(recordAttendance, initial);
+  return <div className="mt-7 rounded-3xl border border-white/10 bg-white/5 p-5 sm:p-7"><div className="flex gap-3"><button onClick={() => setMode("CHECK_IN")} className={`rounded-xl px-4 py-2 font-bold ${mode === "CHECK_IN" ? "bg-cyan-300 text-slate-950" : "border border-white/20"}`}>CHECK-IN</button><button onClick={() => setMode("CHECK_OUT")} className={`rounded-xl px-4 py-2 font-bold ${mode === "CHECK_OUT" ? "bg-cyan-300 text-slate-950" : "border border-white/20"}`}>CHECK-OUT</button></div><div className="mt-6"><CameraScanner onToken={setToken} /></div><form action={action} className="mt-5 space-y-3"><input type="hidden" name="mode" value={mode} /><label className="block text-sm text-slate-300">Can&apos;t scan? Paste the 64-character pass token.<input name="token" value={token} onChange={(event) => setToken(event.target.value)} className="mt-2 w-full rounded-xl border border-white/15 bg-slate-950 px-4 py-3 font-mono text-white outline-none focus:border-cyan-300" /></label><button disabled={pending} className="w-full rounded-xl bg-cyan-300 px-4 py-3 font-bold text-slate-950 disabled:opacity-60">{pending ? "Recording…" : mode === "CHECK_IN" ? "Record check-in" : "Record check-out"}</button></form>{state.kind !== "idle" && <div className={`mt-5 rounded-xl p-4 ${state.kind === "success" ? "bg-emerald-400/15 text-emerald-100" : state.kind === "warning" ? "bg-amber-300/15 text-amber-100" : "bg-rose-400/15 text-rose-100"}`}><p className="font-bold">{state.message}</p>{state.code && <p className="mt-2 text-sm">{state.code} · {state.name} · {state.department}</p>}</div>}</div>;
+}

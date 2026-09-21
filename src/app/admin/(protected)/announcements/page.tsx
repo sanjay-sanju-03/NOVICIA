@@ -1,0 +1,1 @@
+export default function AnnouncementsPage() { return <section className="mx-auto max-w-6xl px-5 py-8"><h1 className="text-3xl font-bold">Announcements</h1><p className="mt-4 text-slate-300">Announcement management is the next content module.</p></section>; }
